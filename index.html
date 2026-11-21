@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ammora Launch Exchange — GIWA Sepolia</title>
+    <meta
+      name="description"
+      content="Demo exchange for Ammora V4 bonding-curve token launches on GIWA Sepolia. Live launch discovery, curve quotes and swaps powered by @ammora-protocol/sdk."
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">A</div>
+        <div>
+          <h1>Ammora Launch Exchange</h1>
+          <p class="sub">Bonding-curve launches · powered by @ammora-protocol/sdk</p>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="net-badge">
+          <span class="dot" id="net-dot"></span>
+          <span id="net-label">GIWA Sepolia · 91342</span>
+          <span class="block" id="block-label">block —</span>
+        </div>
+        <button id="connect-btn" class="btn primary">Connect wallet</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel launches">
+        <div class="panel-head">
+          <h2>Live launches</h2>
+          <button id="refresh-btn" class="btn ghost" title="Rescan the factory">↻ Refresh</button>
+        </div>
+        <p class="hint">
+          Discovered on-chain from <code>LaunchCreated</code> events of the official Ammora V4
+          launch factory (SDK catalog). Newest first.
+        </p>
+        <div id="launch-list" class="launch-list">
+          <div class="skeleton">Scanning factory events…</div>
+        </div>
+      </section>
+
+      <section class="panel swap">
+        <div class="panel-head">
+          <h2>Swap</h2>
+          <div class="toggle" role="tablist">
+            <button id="tab-buy" class="toggle-btn active">Buy</button>
+            <button id="tab-sell" class="toggle-btn">Sell</button>
+          </div>
+        </div>
+
+        <div id="selected-token" class="selected-token">Select a launch to trade</div>
+
+        <label class="field">
+          <span id="amount-label">You pay (WETH)</span>
+          <div class="amount-row">
+            <input id="amount" type="text" inputmode="decimal" placeholder="0.01" />
+            <span id="amount-symbol" class="amount-symbol">WETH</span>
+          </div>
+          <span id="balance-line" class="balance-line"></span>
+        </label>
+
+        <div class="quote-box" id="quote-box">
+          <div class="quote-row"><span>You receive (est.)</span><strong id="q-out">—</strong></div>
+          <div class="quote-row"><span>Curve fee</span><span id="q-fee">—</span></div>
+          <div class="quote-row"><span>Min. received (1% slippage)</span><span id="q-min">—</span></div>
+          <div class="quote-row"><span>Rate</span><span id="q-rate">—</span></div>
+          <p class="quote-note" id="quote-note">
+            Quotes are live reads from the launch curve via the SDK
+            (<code>ALCClient.quoteExactInput</code>).
+          </p>
+        </div>
+
+        <button id="swap-btn" class="btn primary big" disabled>Select a launch</button>
+        <p id="swap-status" class="swap-status"></p>
+
+        <div class="curve-stats" id="curve-stats" hidden>
+          <h3>Curve</h3>
+          <div class="stat-row"><span>Status</span><span id="cs-status">—</span></div>
+          <div class="stat-row"><span>Quote reserve</span><span id="cs-qres">—</span></div>
+          <div class="stat-row"><span>Base reserve</span><span id="cs-bres">—</span></div>
+          <div class="stat-row"><span>Curve fee</span><span id="cs-fee">—</span></div>
+          <div class="stat-row"><span>Graduation progress</span><span id="cs-prog-label">—</span></div>
+          <div class="progress"><div id="cs-prog" class="progress-bar"></div></div>
+          <div class="stat-row">
+            <span>Curve contract</span>
+            <a id="cs-curve-link" href="#" target="_blank" rel="noreferrer">—</a>
+          </div>
+          <div class="stat-row">
+            <span>Token contract</span>
+            <a id="cs-token-link" href="#" target="_blank" rel="noreferrer">—</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="panel catalog">
+      <h2>SDK deployment catalog — GIWA Sepolia</h2>
+      <p class="hint">
+        Rendered directly from the <code>giwaSepoliaAutoRouteDeployment</code> export of
+        @ammora-protocol/sdk@0.3.9 (protocol V4). No addresses are hardcoded in this app.
+      </p>
+      <div id="catalog-grid" class="catalog-grid"></div>
+    </section>
+
+    <footer class="footer">
+      <p>
+        Demo app for the Ammora Season 2 builder mission. Testnet only — GIWA Sepolia ETH/WETH
+        have no real value. Quotes and state are read live from on-chain contracts through the
+        Ammora SDK; swaps are signed by your own wallet.
+      </p>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
